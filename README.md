@@ -1,4 +1,4 @@
-<h1><b>Miaoustral : La quête Magique</b></h1>
+<h1><b><center>Miaoustral : La quête Magique</center></b></h1>
 
 Une aventure Magique d'un chat invoquer malencontreusement dans un univers fantastique ou il vas devoir sauver un village d'une Malédiction.
 
