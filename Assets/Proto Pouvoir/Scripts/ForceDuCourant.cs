@@ -5,12 +5,30 @@ using UnityEngine;
 public class ForceDuCourant : MonoBehaviour
 {
     public GameObject _gObject;
+    ConstantForce _constForce;
+
+    void Awake()
+    {
+        _constForce = GetComponent<ConstantForce>();
+    }
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 3)
+        Debug.Log("collision"+other.name);
+        Debug.Log(other.gameObject.layer);
+
+        if(other.gameObject.layer == 6)
         {
-            _gObject.AddComponent<ConstantForce>();
+            gameObject.GetComponent<ConstantForce>().relativeForce = new Vector3(0,100,0);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        Debug.Log("fin collision");
+        if (other.gameObject.layer == 6)
+        {
+            gameObject.GetComponent<ConstantForce>().relativeForce = Vector3.zero;
         }
     }
 }

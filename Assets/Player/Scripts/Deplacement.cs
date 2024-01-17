@@ -10,12 +10,13 @@ public class Deplacement : MonoBehaviour
 
     public float _speed,
                  _speedRotate = 0.1f;
-    CharacterController _charactControl;
+    Rigidbody _rb;
+    Vector3 _mouvInput;
 
 
     void Awake()
     {
-        _charactControl = GetComponent<CharacterController>();
+        _rb = GetComponent<Rigidbody>();
         _mouv = _inputAA.FindActionMap("Default").FindAction("Deplacement");
         _mouv.Enable();
     }
@@ -23,14 +24,20 @@ public class Deplacement : MonoBehaviour
     void Update()
     {
         var mouvDir = _mouv.ReadValue<Vector2>();
-        Vector3 z = Camera.main.transform.forward * mouvDir.y;
-        Vector3 x = Camera.main.transform.right * mouvDir.x;
-        z.y = 0;
-        x.y = 0;
-        Vector3 dir = (z + x) * _speed * Time.deltaTime;
 
-        if (dir.sqrMagnitude > 0) { transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), _speedRotate); }
-        _charactControl.Move(dir);
+        _mouvInput = Camera.main.transform.right * mouvDir.x + Camera.main.transform.forward * mouvDir.y;
+        _mouvInput.y = 0;
+        Debug.DrawRay(transform.position, _mouvInput);
+        //if(_mouvInput.sqrMagnitude > 0) { transform.eulerAngles =  }
+    }
 
+    void FixedUpdate()
+    {
+        Vector3 velocity = _mouvInput * _speed;
+        velocity.y = _rb.velocity.y;
+        _rb.velocity = velocity;
+
+        if(_mouvInput.sqrMagnitude > 0) { _rb.MoveRotation(Quaternion.LookRotation(_mouvInput)); }
+        Debug.Log(_mouvInput.sqrMagnitude);
     }
 }
