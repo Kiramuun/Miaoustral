@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class ForceDuCourant : MonoBehaviour
 {
-    public GameObject _gObject;
     ConstantForce _constForce;
 
     void Awake()
     {
-        _constForce = GetComponent<ConstantForce>();
+        _constForce = GameObject.Find("Player").GetComponent<ConstantForce>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -17,18 +16,18 @@ public class ForceDuCourant : MonoBehaviour
         Debug.Log("collision"+other.name);
         Debug.Log(other.gameObject.layer);
 
-        if(other.gameObject.layer == 6)
+        if(other.gameObject.layer == 3)
         {
-            gameObject.GetComponent<ConstantForce>().relativeForce = new Vector3(0,100,0);
+            _constForce.relativeForce = new Vector3(0,50,0);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
         Debug.Log("fin collision");
-        if (other.gameObject.layer == 6)
+        if (other.gameObject.layer == 3)
         {
-            gameObject.GetComponent<ConstantForce>().relativeForce = Vector3.zero;
+            _constForce.relativeForce = Vector3.zero;
         }
     }
 }
