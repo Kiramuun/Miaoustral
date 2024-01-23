@@ -13,8 +13,8 @@ public class ForceDuCourant : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("collision"+other.name);
-        Debug.Log(other.gameObject.layer);
+        //Debug.Log("collision"+other.name);
+        //Debug.Log(other.gameObject.layer);
 
         if(other.gameObject.layer == 3)
         {
@@ -24,7 +24,7 @@ public class ForceDuCourant : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        Debug.Log("fin collision");
+        //Debug.Log("fin collision");
         if (other.gameObject.layer == 3)
         {
             _constForce.relativeForce = Vector3.zero;

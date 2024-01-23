@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Soins",
+                    "type": "Button",
+                    "id": "c2ca9166-5d5e-4823-b7e9-d8adb7dbb9bb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -150,7 +159,7 @@
                 {
                     "name": "",
                     "id": "0ecb3a1a-f250-4728-9741-907fab644fb7",
-                    "path": "",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -172,7 +181,7 @@
                 {
                     "name": "",
                     "id": "8503f8a9-10db-496c-a9e6-2b7b599db43e",
-                    "path": "",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -194,11 +203,22 @@
                 {
                     "name": "",
                     "id": "88604ecb-b1de-4fed-becb-b07941002f73",
-                    "path": "",
+                    "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Courant Ascendant",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7d4bf19e-4849-4ff1-a73e-839863dc5f3d",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Soins",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
