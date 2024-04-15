@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,9 +16,12 @@ public class Deplacement : MonoBehaviour
     public GameObject _bouleDFeu,
                       _soins;
     public float _speed,
-                 _speedRotate = 0.1f;
+                 _speedRotate = 0.1f,
+                 _coolDownBdf = 5f;
     Rigidbody _rb;
-    Vector3 _mouvInput;
+    public TextMeshProUGUI _textCoolDownBdF;
+    Vector3 _mouvDir;
+    Vector2 mouvInput;
 
 
     void Awake()
@@ -29,34 +33,42 @@ public class Deplacement : MonoBehaviour
         _jump.Enable();
     }
 
-    bool IsGrounded()
+    private void Update()
+    {
+        if(_inputAA.FindActionMap("Default").FindAction("Boule de Feu").enabled)
+        {
+            _textCoolDownBdF.text = "BdF : " + _coolDownBdf;
+            StartCoroutine(CoolDownBdF());
+        }
+    }
+
+    /*bool IsGrounded()
     {
         return GetComponent<Rigidbody>().velocity.y == 0;
-    }
+    }*/
 
     public void Deplacements(InputAction.CallbackContext context)
     {
-        var mouvDir = _mouv.ReadValue<Vector2>();
-
-        _mouvInput = Camera.main.transform.right * mouvDir.x + Camera.main.transform.forward * mouvDir.y;
-        _mouvInput.y = 0;
-        //Debug.DrawRay(transform.position, _mouvInput);
+        mouvInput = _mouv.ReadValue<Vector2>();
     }
 
     void FixedUpdate()
     {
-        Vector3 velocity = _mouvInput * _speed;
+        Debug.DrawRay(transform.position, _mouvDir, Color.black, 5f);
+        _mouvDir = Camera.main.transform.right * mouvInput.x + Camera.main.transform.forward * mouvInput.y;
+        _mouvDir.y = 0;
+        Vector3 velocity = _mouvDir * _speed;
         velocity.y = _rb.velocity.y;
         _rb.velocity = velocity;
 
-        if(_mouvInput.sqrMagnitude > 0) { _rb.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_mouvInput), _speedRotate)); }
-        //Debug.Log(_mouvInput.sqrMagnitude);
+        if(_mouvDir.sqrMagnitude > 0) { _rb.MoveRotation(Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_mouvDir), _speedRotate)); }
+        
     }
 
-    public void Jump(InputAction.CallbackContext context)
+    /*public void Jump(InputAction.CallbackContext context)
     {
         if(IsGrounded()) { if (context.performed) { _rb.AddForce(Vector3.up * 500); } }
-    }
+    }*/
 
     public void Sprint(InputAction.CallbackContext context)
     {
@@ -75,14 +87,12 @@ public class Deplacement : MonoBehaviour
 
     public void BouleDeFeu(InputAction.CallbackContext context)
     {
-        if (context.performed) 
-        { 
-            GameObject newBdF = Instantiate(_bouleDFeu, _shootPoint.transform.position, Quaternion.identity);
-            newBdF.transform.parent = _grpBdF;
-        }
+        GameObject newBdF = Instantiate(_bouleDFeu, _shootPoint.transform.position, Quaternion.LookRotation(transform.forward));
+        newBdF.transform.parent = _grpBdF;
     }
 
-    
-
-    
+    IEnumerator CoolDownBdF()
+    {
+        yield return new WaitForSeconds(_coolDownBdf);
+    }
 }
